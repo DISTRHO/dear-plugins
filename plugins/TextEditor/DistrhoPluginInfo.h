@@ -1,6 +1,6 @@
 /*
  * Text Editor example
- * Copyright (C) 2023 Filipe Coelho <falktx@falktx.com>
+ * Copyright (C) 2023-2025 Filipe Coelho <falktx@falktx.com>
  * SPDX-License-Identifier: ISC
  */
 
@@ -95,7 +95,7 @@
    @see Plugin::initState(uint32_t, String&, String&)
    @see Plugin::setState(const char*, const char*)
  */
-#define DISTRHO_PLUGIN_WANT_STATE 0
+#define DISTRHO_PLUGIN_WANT_STATE 1
 
 /**
    Whether the plugin implements the full state API.
@@ -172,10 +172,26 @@
 #define DISTRHO_UI_USER_RESIZABLE 1
 
 /**
-   The %UI URI when exporting in LV2 format.@n
-   By default this is set to @ref DISTRHO_PLUGIN_URI with "#UI" as suffix.
+   Whether to %UI is going to use file browser dialogs.@n
+   By default this is false, with the file browser APIs not available for use.
  */
-#define DISTRHO_UI_URI DISTRHO_PLUGIN_URI "#UI"
+#define DISTRHO_UI_FILE_BROWSER 1
+
+/**
+   A 4-character symbol that identifies a brand or manufacturer, with at least one non-lower case character.@n
+   Plugins from the same brand should use the same symbol.
+   @note This macro is required when building AU plugins, and used for VST3 if present
+   @note Setting this macro will change the uid of a VST3 plugin.
+         If you already released a DPF-based VST3 plugin make sure to also enable DPF_VST3_DONT_USE_BRAND_ID
+ */
+#define DISTRHO_PLUGIN_BRAND_ID Dstr
+
+/**
+   A 4-character symbol which identifies a plugin.@n
+   It must be unique within at least a set of plugins from the brand.
+   @note This macro is required when building AU plugins
+ */
+#define DISTRHO_PLUGIN_UNIQUE_ID dTxt
 
 /**
    Custom LV2 category for the plugin.@n

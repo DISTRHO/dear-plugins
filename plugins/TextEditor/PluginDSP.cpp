@@ -1,6 +1,6 @@
 /*
  * Text Editor example
- * Copyright (C) 2023 Filipe Coelho <falktx@falktx.com>
+ * Copyright (C) 2023-2025 Filipe Coelho <falktx@falktx.com>
  * SPDX-License-Identifier: ISC
  */
 
@@ -18,7 +18,7 @@ public:
       You must set all parameter values to their defaults, matching ParameterRanges::def.
     */
     TextEditorPlugin()
-        : Plugin(0, 0, 0) // parameters, programs, states
+        : Plugin(0, 0, 1) // parameters, programs, states
     {
     }
 
@@ -40,7 +40,7 @@ protected:
     */
     const char* getMaker() const noexcept override
     {
-        return "falkTX";
+        return "DISTRHO";
     }
 
    /**
@@ -61,14 +61,22 @@ protected:
         return d_version(1, 0, 0);
     }
 
+    // ----------------------------------------------------------------------------------------------------------------
+    // Init
+
    /**
-      Get the plugin unique Id.@n
-      This value is used by LADSPA, DSSI and VST plugin formats.
-      @see d_cconst()
+      Initialize the state @a index.@n
+      This function will be called once, shortly after the plugin is created.@n
+      Must be implemented by your plugin class only if DISTRHO_PLUGIN_WANT_STATE is enabled.
     */
-    int64_t getUniqueId() const noexcept override
+    void initState(uint32_t index, State& state) override
     {
-        return d_cconst('d', 'T', 'x', 't');
+        if (index != 0)
+            return;
+
+        state.hints = kStateIsHostWritable | kStateIsOnlyForUI;
+        state.key = "text";
+        state.label = "Text";
     }
 
     // ----------------------------------------------------------------------------------------------------------------

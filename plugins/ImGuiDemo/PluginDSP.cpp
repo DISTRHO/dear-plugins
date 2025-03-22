@@ -40,7 +40,7 @@ protected:
     */
     const char* getMaker() const noexcept override
     {
-        return "falkTX";
+        return "DISTRHO";
     }
 
    /**

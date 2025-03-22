@@ -28,6 +28,6 @@ BUILD_CXX_FLAGS += -I../../dpf-widgets/opengl
 # --------------------------------------------------------------
 # Enable all possible plugin types
 
-all: clap dssi jack lv2_sep vst2 vst3
+all: au clap dssi jack lv2_sep vst2 vst3
 
 # --------------------------------------------------------------
