@@ -16,7 +16,8 @@ START_NAMESPACE_DISTRHO
 
 class WebBrowserUI : public UI
 {
-    bool urlChanged = true;
+    bool urlChanged = false;
+    bool urlFirstInit = true;
     bool urlNeedsReload = false;
     char urlLabelBuffer[0xff] = "https://github.com/DISTRHO/dear-plugins";
     uint urlLabelHeight = 0;
@@ -45,6 +46,8 @@ public:
             setGeometryConstraints(width, height);
             setSize(width, height);
         }
+
+        setFontSize(16);
     }
 
 protected:
@@ -74,6 +77,8 @@ protected:
 
         fprintf(stderr, "url changed to %s\n", value);
 
+        const double scaleFactor = getScaleFactor();
+
         WebViewOptions opts;
         opts.offset.y = urlLabelHeight;
 
@@ -82,7 +87,7 @@ protected:
                           getWindow().getNativeWindowHandle(),
                           getWidth(),
                           getHeight() - urlLabelHeight,
-                          getScaleFactor(),
+                          scaleFactor,
                           opts));
     }
 
@@ -117,11 +122,23 @@ protected:
             ImGui::TextUnformatted("URL:");
             ImGui::SameLine();
 
-            ImGui::SetNextItemWidth(-70);
-            urlChanged |= ImGui::InputText("", urlLabelBuffer, sizeof(urlLabelBuffer), textFlags);
+            ImGui::SetNextItemWidth(-76 * getScaleFactor());
+            if (ImGui::InputText("", urlLabelBuffer, sizeof(urlLabelBuffer) - 8, textFlags))
+            {
+                urlChanged = true;
+
+                // add http:// suffix is no protocol is defined in newly changed URL
+                if (std::strchr(urlLabelBuffer, ':') == nullptr)
+                {
+                    std::memmove(urlLabelBuffer + 7, urlLabelBuffer, std::strlen(urlLabelBuffer) + 1);
+                    urlLabelBuffer[sizeof(urlLabelBuffer) - 1] = '\0';
+                    std::memcpy(urlLabelBuffer, "http://", 7);
+                }
+            }
             ImGui::SameLine();
 
-            urlNeedsReload |= ImGui::Button("Reload");
+            if (ImGui::Button("Reload"))
+                urlNeedsReload = true;
 
             ImGui::EndGroup();
         }
@@ -139,16 +156,20 @@ protected:
     */
     void uiIdle() override
     {
-        if (urlChanged)
+        if (urlChanged || urlFirstInit)
         {
-            urlChanged = false;
-            urlNeedsReload = false;
-
             // change our webview contents
             stateChanged("url", urlLabelBuffer);
 
-            // inform host of the state change
-            setState("url", urlLabelBuffer);
+            if (urlFirstInit)
+            {
+                // inform host of the state change
+                setState("url", urlLabelBuffer);
+                urlFirstInit = false;
+            }
+
+            urlChanged = false;
+            urlNeedsReload = false;
         }
 
         if (urlNeedsReload)
@@ -174,7 +195,7 @@ protected:
         UI::onResize(ev);
 
         if (const WebViewHandle handle = webview.get())
-            webViewResize(handle, ev.size.getWidth(), ev.size.getHeight(), getScaleFactor());
+            webViewResize(handle, ev.size.getWidth(), ev.size.getHeight() - urlLabelHeight, getScaleFactor());
     }
 
     // ----------------------------------------------------------------------------------------------------------------
