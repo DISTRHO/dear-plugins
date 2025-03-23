@@ -8,6 +8,7 @@ This is very much WORK IN PROGRESS!
 This collection currently includes:<br/>
  - ImGui Demo
  - Text Editor
+ - Web Browser
 
 ## ImGui Demo
 
