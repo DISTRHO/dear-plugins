@@ -18,6 +18,7 @@ endif
 plugins: dgl
 	$(MAKE) all -C plugins/ImGuiDemo
 	$(MAKE) all -C plugins/TextEditor
+	$(MAKE) all -C plugins/WebBrowser
 
 ifneq ($(CROSS_COMPILING),true)
 gen: plugins dpf/utils/lv2_ttl_generator
@@ -36,6 +37,7 @@ clean:
 	$(MAKE) clean -C dpf/utils/lv2-ttl-generator
 	$(MAKE) clean -C plugins/ImGuiDemo
 	$(MAKE) clean -C plugins/TextEditor
+	$(MAKE) clean -C plugins/WebBrowser
 	rm -rf bin build dpf-widgets/opengl/*.d dpf-widgets/opengl/*.o
 
 # --------------------------------------------------------------
