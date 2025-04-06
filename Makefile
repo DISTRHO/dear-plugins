@@ -4,6 +4,9 @@
 # Created by falkTX
 #
 
+# needed by some plugins
+export USE_WEB_VIEW = true
+
 include dpf/Makefile.base.mk
 
 all: dgl plugins gen
