@@ -18,21 +18,10 @@ public:
       The UI should be initialized to a default state that matches the plugin side.
     */
     ImGuiDemoUI()
-        : UI(DISTRHO_UI_DEFAULT_WIDTH, DISTRHO_UI_DEFAULT_HEIGHT)
+        : UI()
     {
         const double scaleFactor = getScaleFactor();
-
-        if (d_isEqual(scaleFactor, 1.0))
-        {
-            setGeometryConstraints(DISTRHO_UI_DEFAULT_WIDTH, DISTRHO_UI_DEFAULT_HEIGHT);
-        }
-        else
-        {
-            const uint width = DISTRHO_UI_DEFAULT_WIDTH * scaleFactor;
-            const uint height = DISTRHO_UI_DEFAULT_HEIGHT * scaleFactor;
-            setGeometryConstraints(width, height);
-            setSize(width, height);
-        }
+        setGeometryConstraints(DISTRHO_UI_DEFAULT_WIDTH * scaleFactor, DISTRHO_UI_DEFAULT_HEIGHT * scaleFactor);
     }
 
 protected:

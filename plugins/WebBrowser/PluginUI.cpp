@@ -32,22 +32,10 @@ public:
         : UI(DISTRHO_UI_DEFAULT_WIDTH, DISTRHO_UI_DEFAULT_HEIGHT)
     {
         const double scaleFactor = getScaleFactor();
-
-        if (d_isEqual(scaleFactor, 1.0))
-        {
-            urlLabelHeight = 36;
-            setGeometryConstraints(DISTRHO_UI_DEFAULT_WIDTH, DISTRHO_UI_DEFAULT_HEIGHT);
-        }
-        else
-        {
-            const uint width = DISTRHO_UI_DEFAULT_WIDTH * scaleFactor;
-            const uint height = DISTRHO_UI_DEFAULT_HEIGHT * scaleFactor;
-            urlLabelHeight = 36 * scaleFactor;
-            setGeometryConstraints(width, height);
-            setSize(width, height);
-        }
-
+        setGeometryConstraints(DISTRHO_UI_DEFAULT_WIDTH * scaleFactor, DISTRHO_UI_DEFAULT_HEIGHT * scaleFactor);
         setFontSize(16);
+
+        urlLabelHeight = d_roundToUnsignedInt(36 * scaleFactor);
     }
 
 protected:
