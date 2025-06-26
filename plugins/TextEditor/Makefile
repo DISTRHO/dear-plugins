@@ -23,6 +23,9 @@ FILES_UI = \
 
 include ../../dpf/Makefile.plugins.mk
 
+BUILD_CXX_FLAGS += -DIMGUI_DISABLE_DEBUG_TOOLS
+BUILD_CXX_FLAGS += -DIMGUI_DISABLE_DEFAULT_SHELL_FUNCTIONS
+BUILD_CXX_FLAGS += -DIMGUI_DISABLE_DEMO_WINDOWS
 BUILD_CXX_FLAGS += -I../../dpf-widgets/opengl
 
 # --------------------------------------------------------------
