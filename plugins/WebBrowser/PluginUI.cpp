@@ -111,7 +111,7 @@ protected:
             ImGui::SameLine();
 
             ImGui::SetNextItemWidth(-76 * getScaleFactor());
-            if (ImGui::InputText("", urlLabelBuffer, sizeof(urlLabelBuffer) - 8, textFlags))
+            if (ImGui::InputText("##url", urlLabelBuffer, sizeof(urlLabelBuffer) - 8, textFlags))
             {
                 urlChanged = true;
 
