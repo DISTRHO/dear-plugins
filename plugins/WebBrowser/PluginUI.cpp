@@ -1,6 +1,6 @@
 /*
  * Web Browser example
- * Copyright (C) 2025 Filipe Coelho <falktx@falktx.com>
+ * Copyright (C) 2025-2026 Filipe Coelho <falktx@falktx.com>
  * SPDX-License-Identifier: ISC
  */
 
@@ -29,11 +29,14 @@ public:
       The UI should be initialized to a default state that matches the plugin side.
     */
     WebBrowserUI()
-        : UI(DISTRHO_UI_DEFAULT_WIDTH, DISTRHO_UI_DEFAULT_HEIGHT)
+        : UI()
     {
+        // use a bigger font size (13 is default for ImGui widgets)
+        setFontSize(16);
+
+        // set minimum size
         const double scaleFactor = getScaleFactor();
         setGeometryConstraints(DISTRHO_UI_DEFAULT_WIDTH * scaleFactor, DISTRHO_UI_DEFAULT_HEIGHT * scaleFactor);
-        setFontSize(16);
 
         urlLabelHeight = d_roundToUnsignedInt(36 * scaleFactor);
     }

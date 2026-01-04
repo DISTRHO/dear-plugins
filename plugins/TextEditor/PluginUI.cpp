@@ -1,6 +1,6 @@
 /*
  * Text Editor example
- * Copyright (C) 2023-2025 Filipe Coelho <falktx@falktx.com>
+ * Copyright (C) 2023-2026 Filipe Coelho <falktx@falktx.com>
  * SPDX-License-Identifier: ISC
  */
 
@@ -24,10 +24,11 @@ public:
     TextEditorUI()
         : UI()
     {
+        showMenu();
+
+        // set minimum size
         const double scaleFactor = getScaleFactor();
         setGeometryConstraints(DISTRHO_UI_DEFAULT_WIDTH * scaleFactor, DISTRHO_UI_DEFAULT_HEIGHT * scaleFactor);
-
-        showMenu();
     }
 
 protected:
